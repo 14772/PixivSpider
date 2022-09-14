@@ -1,7 +1,5 @@
 import pymysql
-from DBUtils.PooledDB import PooledDB
-
-from config import db_config
+from dbutils.pooled_db import PooledDB
 
 
 class DbClient:
@@ -12,7 +10,12 @@ class DbClient:
             mincached=1,
             maxcached=1,
             blocking=True,
-            **db_config
+            host=...,
+            port=...,
+            user=...,
+            password=...,
+            database=...,
+            charset='utf8mb4'
         )
 
     def get_conn(self):
@@ -20,13 +23,12 @@ class DbClient:
         cur = conn.cursor()
         return conn, cur
 
-    def insert(self, data):
-        sql = "INSERT INTO collect(pid, title, urls, tags, uid, author, width, height, page_count, r18) VALUES (%s, " \
-              "%s, %s, %s, %s, %s, %s, %s, %s, %s) "
+    def query(self, sql):
         conn, cur = self.get_conn()
         try:
-            cur.execute(sql, data)
+            cur.execute(sql)
             conn.commit()
+            return cur.fetchall()
         except Exception as e:
             print(e)
             conn.rollback()
