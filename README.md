@@ -4,21 +4,23 @@ Pixiv爬虫，爬取个人收藏，保存至数据库
 
 技术栈：aiohttp 异步爬虫，DBUtils + PyMysql 数据库管理，Flask Web 框架，Nginx 反向代理（非必需），Docker 容器化技术。
 
+nginx 配置文件使用 digitalocean/nginxconfig.io 生成，注意修改。
+
 ## 数据库
 
-| 字段       | 数据类型     | 约束                       | 注释                    |
-| ---------- | ------------ | -------------------------- | ----------------------- |
-| id         | INT          | PRIMARY KEY AUTO_INCREMENT | 自增ID                  |
-| pid        | INT          | NOT NULL                   | pid                     |
-| title      | VARCHAR(50)  | NOT NULL                   | 标题                    |
+| 字段         | 数据类型         | 约束                         | 注释             |
+|------------|--------------|----------------------------|----------------|
+| id         | INT          | PRIMARY KEY AUTO_INCREMENT | 自增ID           |
+| pid        | INT          | NOT NULL                   | pid            |
+| title      | VARCHAR(50)  | NOT NULL                   | 标题             |
 | urls       | VARCHAR(600) | NOT NULL                   | 图片地址字典,json序列化 |
-| tags       | VARCHAR(300) | NOT NULL                   | 标签,含翻译             |
-| uid        | INT          | NOT NULL                   | uid                     |
-| author     | VARCHAR(20)  | NOT NULL                   | 作者                    |
-| width      | INT          | NOT NULL                   | 宽度                    |
-| height     | INT          | NOT NULL                   | 高度                    |
-| page_count | INT          | NOT NULL                   | 作品所在页数            |
-| r18        | INT          | NOT NULL                   | r18-1,非r18-0           |
+| tags       | VARCHAR(300) | NOT NULL                   | 标签,含翻译         |
+| uid        | INT          | NOT NULL                   | uid            |
+| author     | VARCHAR(20)  | NOT NULL                   | 作者             |
+| width      | INT          | NOT NULL                   | 宽度             |
+| height     | INT          | NOT NULL                   | 高度             |
+| page_count | INT          | NOT NULL                   | 作品所在页数         |
+| r18        | INT          | NOT NULL                   | r18-1,非r18-0   |
 
 ## spider
 
@@ -73,12 +75,12 @@ db_config = {
 GET /setu/random
 ```
 
-| 查询参数 | 参数类型 | 是否必需 | 默认值 | 说明                                                         |
-| -------- | -------- | -------- | ------ | ------------------------------------------------------------ |
-| tag      | string[] | 否       | None   | 指定标签，见下文                                             |
-| num      | integer  | 否       | 1      | 一次返回的结果数量，范围为`1`到`10`。在指定关键字或标签的情况下，结果数量可能会不足指定的数量 |
-| r18      | integer  | 否       | 2      | `0`为非 R18，`1`为 R18，`2`为混合（在库中的分类，不等同于作品本身的 R18 标识） |
-| proxy    | integer  | 否       | 1      | `0`不使用图片地址反代服务，`1`使用`i.pixiv.re`反代           |
+| 查询参数  | 参数类型     | 是否必需 | 默认值  | 说明                                                 |
+|-------|----------|------|------|----------------------------------------------------|
+| tag   | string[] | 否    | None | 指定标签，见下文                                           |
+| num   | integer  | 否    | 1    | 一次返回的结果数量，范围为`1`到`10`。在指定关键字或标签的情况下，结果数量可能会不足指定的数量 |
+| r18   | integer  | 否    | 2    | `0`为非 R18，`1`为 R18，`2`为混合（在库中的分类，不等同于作品本身的 R18 标识） |
+| proxy | integer  | 否    | 1    | `0`不使用图片地址反代服务，`1`使用`i.pixiv.re`反代                 |
 
 ###### tag
 
@@ -126,4 +128,3 @@ GET /setu/random?tag=少女&tag=白丝|黑丝
     "msg": ""
 }
 ```
-

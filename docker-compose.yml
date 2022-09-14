@@ -1,0 +1,21 @@
+version: "3.3"
+services:
+  api:
+    container_name: api
+    build: ./api
+    volumes:
+      - ./api:/usr/src/app
+    expose:
+      - "5000"
+    restart: always
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ./nginx:/etc/nginx
+    ports:
+      - "80:80"
+    restart: always
+    depends_on:
+      - api
